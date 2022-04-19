@@ -1,14 +1,13 @@
 from setuptools import setup
 from setuptools import find_packages
 import subprocess
+import os
 
 gst_remote_version = (
     subprocess.run(["git", "describe", "--tags"], stdout=subprocess.PIPE)
     .stdout.decode("utf-8")
     .strip()
 )
-
-print(gst_remote_version)
 
 if "-" in gst_remote_version:
     # when not on tag, git describe outputs: "1.3.3-22-gdf81228"
@@ -20,8 +19,12 @@ if "-" in gst_remote_version:
 
 print(gst_remote_version)
 
-# assert "-" not in gst_remote_version
-# assert "." in gst_remote_version
+assert "-" not in gst_remote_version
+assert "." in gst_remote_version
+
+assert os.path.isfile("gst_calculation/version.py")
+with open("gst_calculation/VERSION", "w", encoding="utf-8") as fh:
+    fh.write(f"{gst_remote_version}\n")
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
@@ -36,6 +39,7 @@ setup(
 	author_email = 'tomywid77@gmail.com',
 	url = 'https://github.com/tomytw/gst-calculation', 
 	packages = find_packages(exclude=('tests*', 'testing*')),
+    package_data={"gst_calculation": ["VERSION"]},
 	python_requires='>=3.7',
 	classifiers=[
         "Programming Language :: Python :: 3.7",
