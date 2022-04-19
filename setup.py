@@ -3,35 +3,35 @@ from setuptools import find_packages
 import subprocess
 import os
 
-gst_remote_version = (
-    subprocess.run(["git", "describe", "--tags"], stdout=subprocess.PIPE)
-    .stdout.decode("utf-8")
-    .strip()
-)
+# gst_remote_version = (
+#     subprocess.run(["git", "describe", "--tags"], stdout=subprocess.PIPE)
+#     .stdout.decode("utf-8")
+#     .strip()
+# )
 
-if "-" in gst_remote_version:
-    # when not on tag, git describe outputs: "1.3.3-22-gdf81228"
-    # pip has gotten strict with version numbers
-    # so change it to: "1.3.3+22.git.gdf81228"
-    # See: https://peps.python.org/pep-0440/#local-version-segments
-    v,i,s = gst_remote_version.split("-")
-    gst_remote_version = v + "+" + i + ".git." + s
+# if "-" in gst_remote_version:
+#     # when not on tag, git describe outputs: "1.3.3-22-gdf81228"
+#     # pip has gotten strict with version numbers
+#     # so change it to: "1.3.3+22.git.gdf81228"
+#     # See: https://peps.python.org/pep-0440/#local-version-segments
+#     v,i,s = gst_remote_version.split("-")
+#     gst_remote_version = v + "+" + i + ".git." + s
 
-print(gst_remote_version)
+# print(gst_remote_version)
 
-assert "-" not in gst_remote_version
-assert "." in gst_remote_version
+# assert "-" not in gst_remote_version
+# assert "." in gst_remote_version
 
-assert os.path.isfile("gst_calculation/version.py")
-with open("gst_calculation/VERSION", "w", encoding="utf-8") as fh:
-    fh.write(f"{gst_remote_version}\n")
+# assert os.path.isfile("gst_calculation/version.py")
+# with open("gst_calculation/VERSION", "w", encoding="utf-8") as fh:
+#     fh.write(f"{gst_remote_version}\n")
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
 	name = 'gst_calculation',
-	version = gst_remote_version,
+	version = '0.1.1',
 	description = 'This package contains Greedy String Tiling calculation',
 	long_description=long_description,
     long_description_content_type="text/markdown",
